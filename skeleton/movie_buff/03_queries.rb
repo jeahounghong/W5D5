@@ -14,33 +14,39 @@ end
 
 def golden_age
   # Find the decade with the highest average movie score.
+  # Movie
+  # .select("
+  #   CASE
+  #   WHEN yr >= 2000 THEN 2000
+  #   WHEN yr >= 1990 THEN 1990
+  #   WHEN yr >= 1980 THEN 1980
+  #   WHEN yr >= 1970 THEN 1970
+  #   WHEN yr >= 1960 THEN 1960
+  #   WHEN yr >= 1950 THEN 1950
+  #   WHEN yr >= 1940 THEN 1940
+  #   WHEN yr >= 1930 THEN 1930
+  #   WHEN yr >= 1920 THEN 1920
+  #   ELSE 1940
+  #   END As Decade
+  # ")
+  # .group('Decade')
+  # .order("AVG(score) DESC")
+  # .limit(1)[0].decade
+
   Movie
-  .select("
-    CASE
-    WHEN yr >= 2000 THEN 2000
-    WHEN yr >= 1990 THEN 1990
-    WHEN yr >= 1980 THEN 1980
-    WHEN yr >= 1970 THEN 1970
-    WHEN yr >= 1960 THEN 1960
-    WHEN yr >= 1950 THEN 1950
-    WHEN yr >= 1940 THEN 1940
-    WHEN yr >= 1930 THEN 1930
-    WHEN yr >= 1920 THEN 1920
-    ELSE 1940
-    END As Decade
-  ")
-  .group('Decade')
-  .order("AVG(score) DESC")
-  .limit(1)
-
-
+    .select("yr / 10 as decade")
+    .group('decade')
+    .order("AVG(score) DESC")
+    .limit(1)[0].decade * 10 
 end
 
 def costars(name)
   # List the names of the actors that the named actor has ever
   # appeared with.
   # Hint: use a subquery
-
+  
+  Movie
+    .select('actors.name')
 end
 
 def actor_out_of_work
